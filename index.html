@@ -95,12 +95,6 @@
 
   /* =====================================================================
      FLIP CARDS (Reasons section)
-     ---------------------------------------------------------------------
-     FIX NOTES: the mirrored/upside-down text bug happens when either
-     (a) backface-visibility isn't applied to BOTH faces, or
-     (b) transform-style:preserve-3d is missing on the rotating parent,
-     or (c) the back face isn't pre-rotated 180deg so it lands right-side
-     up once the whole card flips. All three are handled explicitly below.
      ===================================================================== */
   .flip-card{
     perspective: 1600px;
@@ -221,7 +215,7 @@
        ============================================================ -->
   <section class="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 pb-16">
 
-    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjJlNDA2azk3NzRkcWZ6ZzhhMmU0ZzQ3a3VwN2MycHYxNGN6YXl4ZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Zl7u48zLVFgLpRwq6f/giphy.gif"
          alt="cute cat waving"
          class="bob w-32 h-32 md:w-40 md:h-40 rounded-full object-cover glass p-2 mb-6"
          onerror="this.style.display='none'">
@@ -235,8 +229,7 @@
 
     <!-- ✏️ SUBTEXT -->
     <p class="mt-5 max-w-md md:max-w-lg text-base md:text-lg" style="color:var(--plum)">
-      There's a tiny corner of the internet I built just for you, full of reasons,
-      giggles, and one very important question. Scroll gently — a cat is guiding the way 🐾
+      I built this tiny corner of the internet just for you. Take a quick look around — there's one small question waiting at the end ✨
     </p>
 
     <a href="#reasons" id="open-heart-cta"
@@ -269,8 +262,8 @@
        ✏️ CUSTOMIZE: swap these GIF urls for your own favorites
        ============================================================ -->
   <section class="relative z-10 px-6 py-10 flex flex-wrap items-center justify-center gap-6">
-    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="sleepy cat" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:.2s" onerror="this.style.display='none'">
-    <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="cat love" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:.6s" onerror="this.style.display='none'">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjJlNDA2azk3NzRkcWZ6ZzhhMmU0ZzQ3a3VwN2MycHYxNGN6YXl4ZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/t8xgPfC5oNIRMrNooe/giphy.gif" alt="sleepy cat" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:.2s" onerror="this.style.display='none'">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwOHN6c3p4anRvYzVlMDlsa3k2aDJweGM1Yjljb3RpeGN6NW1qbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JiVtCqZlczkcfMXC62/giphy.gif" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:.6s" onerror="this.style.display='none'">
     <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="cat hearts" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:1s" onerror="this.style.display='none'">
   </section>
 
@@ -283,7 +276,7 @@
     <!-- ----- the question + buttons (hidden after YES) ----- -->
     <div id="ask-panel" class="glass rounded-[2rem] max-w-xl w-full text-center px-6 py-12 md:px-14 md:py-16 relative">
 
-      <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" alt="curious cat"
+      <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZTRrMTd4Zmxhb3d0NTltOWIybnAzZmV3enE2OTRsOGM5bGJjemJ6biZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/LPFNd1AJBoYcVUExmE/giphy.gif" alt="curious cat"
            class="w-20 h-20 mx-auto mb-5 rounded-full object-cover" onerror="this.style.display='none'">
 
       <h2 class="script text-3xl md:text-5xl leading-snug" style="color:var(--rose-deep)">
@@ -309,20 +302,19 @@
 
     <!-- ----- acceptance popup (shown after YES, hidden by default) ----- -->
     <div id="yes-panel" class="hidden glass rounded-[2rem] max-w-xl w-full text-center px-6 py-12 md:px-14 md:py-16">
-      <img src="https://media.giphy.com/media/xUOwGoNqoeEbwbSg5W/giphy.gif" alt="happy sleepy cat"
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2Q2ZmY5ZHM3dHVnY3d0YWkzcW0zYWwxeHlpdjBhZDZoYTkycGFoMCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/5eA8Lx6el98cxTCRD7/giphy.gif" alt="happy sleepy cat"
            class="w-28 h-28 mx-auto mb-6 rounded-full object-cover" onerror="this.style.display='none'">
 
       <!-- ✏️ CUSTOMIZE: acceptance message -->
-      <h2 class="script text-4xl md:text-5xl" style="color:var(--rose-deep)">yayyy! 🎉💖</h2>
+      <h2 class="script text-4xl md:text-5xl" style="color:var(--rose-deep)">Yayy! 🌸✨</h2>
       <p class="mt-4 text-base md:text-lg" style="color:var(--plum)">
-        Best decision ever, Ishini. Here's to every silly memory, every cat video,
-        and every beautiful chapter we haven't written yet. I'm so happy right now 🥹🌸
+        This means a lot to me. Looking forward to getting to know you properly this time.🥹🌸
       </p>
     </div>
   </section>
 
   <footer class="relative z-10 text-center pb-10 text-xs" style="color:var(--plum)">
-    made with 🩷 and way too many cat gifs, just for Ishini
+    Crafted with soft thoughts & good vibes, just for Ishini ✨
   </footer>
 
 <script>
@@ -333,7 +325,20 @@
    FIRST tap/click anywhere on the page (see "MUSIC PLAYBACK" section
    further down) — no extra setup needed once you set this URL.
    ========================================================================= */
-const BACKGROUND_MUSIC_URL = "sonduru-dawasaka-munagasi-boys-over-flower-lahiru-prabath.mp3"; // 👈 REPLACE with your own hosted MP3 link
+const BACKGROUND_MUSIC_URL = "sonduru-dawasaka-munagasi-boys-over-flower-lahiru-prabath_CSxHRAGH.mp3"; // 👈 REPLACE with your own hosted MP3 link
+
+/* =========================================================================
+   📬 FORMSPREE NOTIFICATION ENDPOINT
+   Lets you get an email the moment "YES" is clicked. To set this up:
+     1. Go to https://formspree.io and create a free account.
+     2. Create a new form — Formspree gives you an endpoint URL that
+        looks like: https://formspree.io/f/xxxxxxxx
+     3. Paste that URL below, replacing the placeholder text.
+   If you leave the placeholder in place, the notification call is
+   simply skipped (no errors, nothing sent) — everything else on the
+   page still works normally.
+   ========================================================================= */
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xnpqrrbo"; // 👈 REPLACE with your Formspree endpoint, e.g. "https://formspree.io/f/xxxxxxxx"
 
 /* =========================================================================
    ✏️ SECTION TITLE + CARD DATA
@@ -345,7 +350,7 @@ const REASONS_TITLE = "A little thought for you 🌸";
 
 const REASONS = [
   { front: "Sometimes...", back: "Sometimes people cross your path, and suddenly everything feels a little brighter." },
-  { front: "Just a small thought...", back: "Even with just a few conversations, you effortlessly made a special place in my mind." },
+  { front: "Looking back...", back: "Among all the noise, you were the only one who truly caught my attention." },
 ];
 
 document.getElementById('reasons-title').textContent = REASONS_TITLE;
@@ -395,11 +400,6 @@ for (let i = 0; i < HEART_COUNT; i++) {
 
 /* =========================================================================
    MUSIC PLAYBACK
-   - The song starts automatically on the visitor's FIRST interaction
-     anywhere on the page (click or touch), since browsers block
-     unmuted autoplay before that.
-   - The floating button in the corner only mutes/unmutes it, and shows
-     a little equalizer animation while it's audibly playing.
    ========================================================================= */
 const audio     = document.getElementById('bg-audio');
 const musicBtn  = document.getElementById('music-toggle');
@@ -423,7 +423,7 @@ function startMusic() {
   audio.muted = false;
   audio.play()
     .then(() => setMusicUI(true))
-    .catch(() => setMusicUI(false)); // playback blocked/failed — button still lets them retry via toggleMute
+    .catch(() => setMusicUI(false));
 }
 
 function toggleMute() {
@@ -433,21 +433,16 @@ function toggleMute() {
   setMusicUI(!audio.muted);
 }
 
-// first interaction anywhere on the page starts the music
 document.addEventListener('click', startMusic, { once: true });
 document.addEventListener('touchstart', startMusic, { once: true, passive: true });
-
-// the hero CTA explicitly kicks it off too (in case it's the very first tap)
 openHeartCta.addEventListener('click', startMusic);
 
-// the floating button only controls mute/unmute — stopPropagation keeps it
-// from double-firing the page-wide "first interaction" listener above
 musicBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   toggleMute();
 });
 
-setMusicUI(false); // initial state: muted icon, no equalizer
+setMusicUI(false);
 
 /* =========================================================================
    THE EVASIVE "NO" BUTTON
@@ -459,7 +454,6 @@ const NO_PHRASES = [
 ];
 
 function moveNoButton() {
-  // once triggered once, take the button out of normal flow and pin it
   if (noBtn.style.position !== 'fixed') {
     noBtn.style.position = 'fixed';
   }
@@ -484,13 +478,12 @@ noBtn.addEventListener('touchstart', (e) => {
   e.preventDefault();
   moveNoButton();
 }, { passive: false });
-// keep it inside the viewport if the window is resized
 window.addEventListener('resize', () => {
   if (noBtn.style.position === 'fixed') moveNoButton();
 });
 
 /* =========================================================================
-   THE "YES" BUTTON — confetti + reveal acceptance panel
+   THE "YES" BUTTON — confetti + reveal acceptance panel + notification
    ========================================================================= */
 const yesBtn = document.getElementById('yes-btn');
 const askPanel = document.getElementById('ask-panel');
@@ -526,7 +519,23 @@ function overflowHearts() {
   }
 }
 
+// Fire-and-forget notification — never blocks or delays the UI, and is
+// silently skipped if FORMSPREE_ENDPOINT still has its placeholder value.
+function notifyYesClicked() {
+  if (!FORMSPREE_ENDPOINT || FORMSPREE_ENDPOINT === "YOUR_FORMSPREE_URL_HERE") return;
+
+  fetch(FORMSPREE_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      message: "Ishini clicked YES! 🎉",
+      timestamp: new Date().toISOString()
+    })
+  }).catch(() => { /* network hiccup or blocked request — ignored on purpose */ });
+}
+
 yesBtn.addEventListener('click', () => {
+  notifyYesClicked();   // fire-and-forget, does not block anything below
   fireConfettiBurst();
   overflowHearts();
 
