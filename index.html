@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>For Ishini 🌸✨</title>
+
+<!-- ================================================================
+     TAILWIND CSS (CDN) — utility classes used throughout the markup
+     ================================================================ -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- ================================================================
+     CONFETTI LIBRARY — powers the celebration when "YES" is clicked
+     ================================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<!-- ================================================================
+     GOOGLE FONTS
+     "Poppins"          -> clean, safe, highly-legible body/UI font
+     "Dancing Script"    -> romantic handwritten font for headlines
+     Both are reliable, widely-supported CDN fonts (no rendering glitches).
+     ================================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* =====================================================================
+     🎨 THEME TOKENS — change these to re-theme the whole site in one go
+     ===================================================================== */
+  :root{
+    --cream:      #fff7f2;   /* page background */
+    --blush:      #ffe1ea;   /* soft pink */
+    --rose:       #ff9db8;   /* mid pink accent */
+    --rose-deep:  #ef6f93;   /* buttons / headlines */
+    --plum:       #6b3f57;   /* deep text color */
+    --gold:       #ffd39a;   /* warm highlight */
+    --glass-bg:   rgba(255,255,255,0.5);
+    --glass-brd:  rgba(255,255,255,0.65);
+  }
+
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Poppins', sans-serif;
+    background:
+      radial-gradient(circle at 15% 20%, var(--blush) 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%, var(--gold) 0%, transparent 40%),
+      radial-gradient(circle at 50% 90%, var(--blush) 0%, transparent 50%),
+      var(--cream);
+    color: var(--plum);
+    overflow-x:hidden;
+  }
+  .script{ font-family:'Dancing Script', cursive; }
+
+  /* subtle grain so the pastel gradient doesn't look flat/banded */
+  .grain::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:.05; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* =====================================================================
+     GLASSMORPHISM CARD BASE
+     ===================================================================== */
+  .glass{
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-brd);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(239,111,147,0.18);
+  }
+
+  /* =====================================================================
+     FLOATING HEARTS BACKGROUND
+     ===================================================================== */
+  #hearts-field{
+    position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;
+  }
+  .floating-heart{
+    position:absolute; bottom:-10%;
+    animation-name: floatUp;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    opacity:.65;
+    filter: drop-shadow(0 2px 6px rgba(239,111,147,.25));
+  }
+  @keyframes floatUp{
+    0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    10%  { opacity:.7; }
+    90%  { opacity:.5; }
+    100% { transform: translateY(-115vh) translateX(var(--drift,20px)) rotate(25deg); opacity:0; }
+  }
+
+  /* =====================================================================
+     FLIP CARDS (Reasons section)
+     ---------------------------------------------------------------------
+     FIX NOTES: the mirrored/upside-down text bug happens when either
+     (a) backface-visibility isn't applied to BOTH faces, or
+     (b) transform-style:preserve-3d is missing on the rotating parent,
+     or (c) the back face isn't pre-rotated 180deg so it lands right-side
+     up once the whole card flips. All three are handled explicitly below.
+     ===================================================================== */
+  .flip-card{
+    perspective: 1600px;
+  }
+  .flip-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transition: transform .7s cubic-bezier(.4,.2,.2,1);
+  }
+  .flip-card.is-flipped .flip-inner{
+    transform: rotateY(180deg);
+  }
+  .flip-face{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    border-radius:1.5rem;
+  }
+  .flip-front{
+    transform: rotateY(0deg);
+  }
+  .flip-back{
+    transform: rotateY(180deg);
+  }
+
+  /* =====================================================================
+     PROPOSAL BUTTONS
+     ===================================================================== */
+  .btn-yes{
+    background: linear-gradient(135deg, #ff9db8, #ef6f93);
+    box-shadow: 0 0 25px rgba(239,111,147,.55), 0 8px 20px rgba(239,111,147,.35);
+    animation: pulseGlow 2.2s ease-in-out infinite;
+  }
+  @keyframes pulseGlow{
+    0%,100%{ box-shadow: 0 0 20px rgba(239,111,147,.5), 0 8px 20px rgba(239,111,147,.3); transform:scale(1); }
+    50%    { box-shadow: 0 0 38px rgba(239,111,147,.75), 0 8px 26px rgba(239,111,147,.4); transform:scale(1.035); }
+  }
+  #no-btn{
+    transition: top .35s cubic-bezier(.34,1.56,.64,1), left .35s cubic-bezier(.34,1.56,.64,1), transform .15s ease;
+  }
+
+  /* =====================================================================
+     FLOATING MUSIC TOGGLE — equalizer-bar "now playing" animation
+     ===================================================================== */
+  .music-btn{
+    box-shadow: 0 6px 20px rgba(239,111,147,.35);
+    transition: box-shadow .3s ease;
+  }
+  .music-btn.playing{
+    box-shadow: 0 0 0 6px rgba(239,157,184,.25), 0 6px 20px rgba(239,111,147,.4);
+  }
+  .eq-bars{ display:flex; align-items:flex-end; gap:3px; height:20px; }
+  .eq-bars span{
+    width:4px;
+    height:6px;
+    border-radius:2px;
+    background: var(--rose-deep);
+    transition: height .2s ease;
+  }
+  .music-btn.playing .eq-bars span{ animation: eq 0.9s ease-in-out infinite; }
+  .music-btn.playing .eq-bars span:nth-child(2){ animation-delay:.15s; }
+  .music-btn.playing .eq-bars span:nth-child(3){ animation-delay:.3s; }
+  @keyframes eq{
+    0%,100%{ height:6px; }
+    50%    { height:18px; }
+  }
+
+  /* gentle bob for cat stickers */
+  .bob{ animation: bob 3.4s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0) rotate(-2deg);} 50%{ transform:translateY(-10px) rotate(2deg);} }
+
+  ::selection{ background: var(--rose); color:white; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  }
+</style>
+</head>
+
+<body class="grain relative">
+
+  <!-- ============================================================
+       FLOATING HEARTS — generated by JS at the bottom of the page
+       ============================================================ -->
+  <div id="hearts-field"></div>
+
+  <!-- ============================================================
+       BACKGROUND AUDIO ELEMENT
+       The actual song URL is NOT hardcoded here — it's set from the
+       BACKGROUND_MUSIC_URL constant at the very top of the <script>
+       below, so there is exactly ONE place to edit the song link.
+       ============================================================ -->
+  <audio id="bg-audio" loop preload="none"></audio>
+
+  <!-- ============================================================
+       FLOATING MUSIC TOGGLE (mute/unmute)
+       Music itself starts automatically on the user's first tap/
+       click anywhere on the page (browsers block unmuted autoplay
+       before any interaction) — this button just mutes/unmutes it,
+       and shows a little equalizer animation while playing.
+       ============================================================ -->
+  <button id="music-toggle"
+    class="music-btn fixed bottom-5 right-5 z-50 w-14 h-14 rounded-full glass flex items-center justify-center"
+    aria-label="Mute or unmute background music">
+    <span id="eq-bars" class="eq-bars"><span></span><span></span><span></span></span>
+    <span id="mute-icon" class="hidden text-xl">🔇</span>
+  </button>
+
+  <!-- ============================================================
+       1. HERO SECTION
+       ✏️ CUSTOMIZE: headline text, subtext, and cat GIF below
+       ============================================================ -->
+  <section class="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 pb-16">
+
+    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+         alt="cute cat waving"
+         class="bob w-32 h-32 md:w-40 md:h-40 rounded-full object-cover glass p-2 mb-6"
+         onerror="this.style.display='none'">
+
+    <p class="uppercase tracking-widest text-xs md:text-sm mb-3" style="color:var(--rose-deep)">a little something, just for you</p>
+
+    <!-- ✏️ MAIN TITLE -->
+    <h1 class="script text-5xl md:text-7xl leading-tight" style="color:var(--rose-deep)">
+      For Ishini 🌸✨
+    </h1>
+
+    <!-- ✏️ SUBTEXT -->
+    <p class="mt-5 max-w-md md:max-w-lg text-base md:text-lg" style="color:var(--plum)">
+      There's a tiny corner of the internet I built just for you, full of reasons,
+      giggles, and one very important question. Scroll gently — a cat is guiding the way 🐾
+    </p>
+
+    <a href="#reasons" id="open-heart-cta"
+       class="mt-10 px-7 py-3.5 rounded-full text-white font-semibold"
+       style="background: linear-gradient(135deg, var(--rose), var(--rose-deep)); box-shadow:0 10px 25px rgba(239,111,147,.4);">
+      Open My Heart 💌
+    </a>
+
+    <div class="mt-14 text-2xl animate-bounce" style="color:var(--rose-deep)">⌄</div>
+  </section>
+
+  <!-- ============================================================
+       2. REASONS / QUOTES SECTION — 2 subtle, low-pressure cards
+       ✏️ CUSTOMIZE: edit the REASONS array near the top of the
+       <script> tag below to change the section title or card text.
+       ============================================================ -->
+  <section id="reasons" class="relative z-10 px-6 py-20 md:py-28 max-w-2xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 id="reasons-title" class="script text-4xl md:text-5xl" style="color:var(--rose-deep)"></h2>
+      <p class="mt-3 text-sm md:text-base" style="color:var(--plum)">tap or hover each card to peek inside</p>
+    </div>
+
+    <div id="reasons-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+      <!-- Cards are rendered by JS from the REASONS array below -->
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. LITTLE GALLERY / STICKER STRIP
+       ✏️ CUSTOMIZE: swap these GIF urls for your own favorites
+       ============================================================ -->
+  <section class="relative z-10 px-6 py-10 flex flex-wrap items-center justify-center gap-6">
+    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="sleepy cat" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:.2s" onerror="this.style.display='none'">
+    <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="cat love" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:.6s" onerror="this.style.display='none'">
+    <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="cat hearts" class="bob w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover glass p-1.5" style="animation-delay:1s" onerror="this.style.display='none'">
+  </section>
+
+  <!-- ============================================================
+       4. THE PROPOSAL SECTION
+       ✏️ CUSTOMIZE: the big question text below
+       ============================================================ -->
+  <section id="proposal" class="relative z-10 min-h-screen flex items-center justify-center px-6 py-24">
+
+    <!-- ----- the question + buttons (hidden after YES) ----- -->
+    <div id="ask-panel" class="glass rounded-[2rem] max-w-xl w-full text-center px-6 py-12 md:px-14 md:py-16 relative">
+
+      <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" alt="curious cat"
+           class="w-20 h-20 mx-auto mb-5 rounded-full object-cover" onerror="this.style.display='none'">
+
+      <h2 class="script text-3xl md:text-5xl leading-snug" style="color:var(--rose-deep)">
+        Ishini, will you give us a chance to write a beautiful story together? ✨
+      </h2>
+
+      <div class="mt-10 flex items-center justify-center gap-6 flex-wrap relative" style="min-height:70px">
+        <button id="yes-btn"
+          class="btn-yes text-white font-bold px-9 py-4 rounded-full text-lg relative z-10">
+          YES! 💖
+        </button>
+
+        <!-- The No button is positioned fixed by JS once the user interacts with it -->
+        <button id="no-btn"
+          class="text-white font-semibold px-7 py-3.5 rounded-full text-base relative z-10"
+          style="background: linear-gradient(135deg,#c9a3b0,#a97b8e);">
+          No 🙈
+        </button>
+      </div>
+
+      <p class="mt-6 text-xs italic" style="color:var(--plum)">(psst… one of these buttons is a little shy)</p>
+    </div>
+
+    <!-- ----- acceptance popup (shown after YES, hidden by default) ----- -->
+    <div id="yes-panel" class="hidden glass rounded-[2rem] max-w-xl w-full text-center px-6 py-12 md:px-14 md:py-16">
+      <img src="https://media.giphy.com/media/xUOwGoNqoeEbwbSg5W/giphy.gif" alt="happy sleepy cat"
+           class="w-28 h-28 mx-auto mb-6 rounded-full object-cover" onerror="this.style.display='none'">
+
+      <!-- ✏️ CUSTOMIZE: acceptance message -->
+      <h2 class="script text-4xl md:text-5xl" style="color:var(--rose-deep)">yayyy! 🎉💖</h2>
+      <p class="mt-4 text-base md:text-lg" style="color:var(--plum)">
+        Best decision ever, Ishini. Here's to every silly memory, every cat video,
+        and every beautiful chapter we haven't written yet. I'm so happy right now 🥹🌸
+      </p>
+    </div>
+  </section>
+
+  <footer class="relative z-10 text-center pb-10 text-xs" style="color:var(--plum)">
+    made with 🩷 and way too many cat gifs, just for Ishini
+  </footer>
+
+<script>
+/* =========================================================================
+   🎵 BACKGROUND MUSIC URL — THE ONLY PLACE YOU NEED TO EDIT THE SONG.
+   Paste a direct link to an MP3/OGG file below. Browsers block unmuted
+   autoplay, so playback is kicked off automatically on the visitor's
+   FIRST tap/click anywhere on the page (see "MUSIC PLAYBACK" section
+   further down) — no extra setup needed once you set this URL.
+   ========================================================================= */
+const BACKGROUND_MUSIC_URL = "sonduru-dawasaka-munagasi-boys-over-flower-lahiru-prabath.mp3"; // 👈 REPLACE with your own hosted MP3 link
+
+/* =========================================================================
+   ✏️ SECTION TITLE + CARD DATA
+   Edit the title and the two reasons/quote cards shown in the flip-card
+   grid here. `front` is the short label shown before flipping, `back`
+   is the full note revealed on hover/tap.
+   ========================================================================= */
+const REASONS_TITLE = "A little thought for you 🌸";
+
+const REASONS = [
+  { front: "Sometimes...", back: "Sometimes people cross your path, and suddenly everything feels a little brighter." },
+  { front: "Just a small thought...", back: "Even with just a few conversations, you effortlessly made a special place in my mind." },
+];
+
+document.getElementById('reasons-title').textContent = REASONS_TITLE;
+
+const grid = document.getElementById('reasons-grid');
+REASONS.forEach((r) => {
+  const card = document.createElement('div');
+  card.className = 'flip-card h-56';
+  card.innerHTML = `
+    <div class="flip-inner">
+      <div class="flip-face flip-front flex flex-col items-center justify-center glass px-4 text-center cursor-pointer">
+        <p class="font-semibold text-lg" style="color:var(--rose-deep)">${r.front}</p>
+        <p class="text-[11px] mt-2 opacity-60">tap to reveal</p>
+      </div>
+      <div class="flip-face flip-back flex items-center justify-center px-6 text-center"
+           style="background: linear-gradient(135deg, rgba(255,157,184,.6), rgba(239,111,147,.6));">
+        <p class="text-white font-medium text-sm md:text-base leading-relaxed">${r.back}</p>
+      </div>
+    </div>
+  `;
+  // works for both hover (desktop) and tap (mobile)
+  card.addEventListener('click', () => card.classList.toggle('is-flipped'));
+  card.addEventListener('mouseenter', () => card.classList.add('is-flipped'));
+  card.addEventListener('mouseleave', () => card.classList.remove('is-flipped'));
+  grid.appendChild(card);
+});
+
+/* =========================================================================
+   FLOATING HEARTS BACKGROUND
+   ========================================================================= */
+const heartsField = document.getElementById('hearts-field');
+const HEART_COUNT = 22;
+const heartEmojis = ['💖','💕','🌸','💗'];
+
+for (let i = 0; i < HEART_COUNT; i++) {
+  const h = document.createElement('span');
+  h.className = 'floating-heart';
+  h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+  const size = 14 + Math.random() * 20;
+  h.style.left = Math.random() * 100 + 'vw';
+  h.style.fontSize = size + 'px';
+  h.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+  h.style.animationDuration = (9 + Math.random() * 10) + 's';
+  h.style.animationDelay = (Math.random() * 12) + 's';
+  heartsField.appendChild(h);
+}
+
+/* =========================================================================
+   MUSIC PLAYBACK
+   - The song starts automatically on the visitor's FIRST interaction
+     anywhere on the page (click or touch), since browsers block
+     unmuted autoplay before that.
+   - The floating button in the corner only mutes/unmutes it, and shows
+     a little equalizer animation while it's audibly playing.
+   ========================================================================= */
+const audio     = document.getElementById('bg-audio');
+const musicBtn  = document.getElementById('music-toggle');
+const eqBars    = document.getElementById('eq-bars');
+const muteIcon  = document.getElementById('mute-icon');
+const openHeartCta = document.getElementById('open-heart-cta');
+
+let musicStarted = false;
+
+function setMusicUI(isAudiblyPlaying) {
+  musicBtn.classList.toggle('playing', isAudiblyPlaying);
+  eqBars.classList.toggle('hidden', !isAudiblyPlaying);
+  muteIcon.classList.toggle('hidden', isAudiblyPlaying);
+}
+
+function startMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+  audio.src = BACKGROUND_MUSIC_URL;
+  audio.volume = 0.5;
+  audio.muted = false;
+  audio.play()
+    .then(() => setMusicUI(true))
+    .catch(() => setMusicUI(false)); // playback blocked/failed — button still lets them retry via toggleMute
+}
+
+function toggleMute() {
+  if (!musicStarted) { startMusic(); return; }
+  audio.muted = !audio.muted;
+  if (audio.paused && !audio.muted) audio.play().catch(() => {});
+  setMusicUI(!audio.muted);
+}
+
+// first interaction anywhere on the page starts the music
+document.addEventListener('click', startMusic, { once: true });
+document.addEventListener('touchstart', startMusic, { once: true, passive: true });
+
+// the hero CTA explicitly kicks it off too (in case it's the very first tap)
+openHeartCta.addEventListener('click', startMusic);
+
+// the floating button only controls mute/unmute — stopPropagation keeps it
+// from double-firing the page-wide "first interaction" listener above
+musicBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  toggleMute();
+});
+
+setMusicUI(false); // initial state: muted icon, no equalizer
+
+/* =========================================================================
+   THE EVASIVE "NO" BUTTON
+   ========================================================================= */
+const noBtn = document.getElementById('no-btn');
+const NO_PHRASES = [
+  "No 🙈", "Are you sure? 🥺", "Wrong button! 😜", "Nice try, Ishini! 💖",
+  "Catch me! 🐱", "Really? 😳", "Think again! 🌸", "Nope, try YES 😹"
+];
+
+function moveNoButton() {
+  // once triggered once, take the button out of normal flow and pin it
+  if (noBtn.style.position !== 'fixed') {
+    noBtn.style.position = 'fixed';
+  }
+  const btnW = noBtn.offsetWidth || 140;
+  const btnH = noBtn.offsetHeight || 50;
+  const margin = 16;
+
+  const maxX = window.innerWidth - btnW - margin;
+  const maxY = window.innerHeight - btnH - margin;
+
+  const newX = Math.max(margin, Math.random() * maxX);
+  const newY = Math.max(margin, Math.random() * maxY);
+
+  noBtn.style.left = newX + 'px';
+  noBtn.style.top = newY + 'px';
+
+  noBtn.textContent = NO_PHRASES[Math.floor(Math.random() * NO_PHRASES.length)];
+}
+
+noBtn.addEventListener('mouseenter', moveNoButton);
+noBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  moveNoButton();
+}, { passive: false });
+// keep it inside the viewport if the window is resized
+window.addEventListener('resize', () => {
+  if (noBtn.style.position === 'fixed') moveNoButton();
+});
+
+/* =========================================================================
+   THE "YES" BUTTON — confetti + reveal acceptance panel
+   ========================================================================= */
+const yesBtn = document.getElementById('yes-btn');
+const askPanel = document.getElementById('ask-panel');
+const yesPanel = document.getElementById('yes-panel');
+
+function fireConfettiBurst() {
+  const duration = 3000;
+  const end = Date.now() + duration;
+  const colors = ['#ff9db8', '#ef6f93', '#ffd39a', '#ffffff'];
+
+  (function frame() {
+    confetti({ particleCount: 4, angle: 60, spread: 65, origin: { x: 0 }, colors });
+    confetti({ particleCount: 4, angle: 120, spread: 65, origin: { x: 1 }, colors });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+
+  confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors });
+}
+
+function overflowHearts() {
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      const h = document.createElement('span');
+      h.className = 'floating-heart';
+      h.textContent = ['💖','💕','🌸','💗','✨'][Math.floor(Math.random()*5)];
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.fontSize = (16 + Math.random() * 22) + 'px';
+      h.style.setProperty('--drift', (Math.random() * 100 - 50) + 'px');
+      h.style.animationDuration = (4 + Math.random() * 4) + 's';
+      heartsField.appendChild(h);
+      setTimeout(() => h.remove(), 9000);
+    }, i * 60);
+  }
+}
+
+yesBtn.addEventListener('click', () => {
+  fireConfettiBurst();
+  overflowHearts();
+
+  askPanel.style.transition = 'opacity .4s ease, transform .4s ease';
+  askPanel.style.opacity = '0';
+  askPanel.style.transform = 'scale(.95)';
+
+  setTimeout(() => {
+    askPanel.classList.add('hidden');
+    yesPanel.classList.remove('hidden');
+    yesPanel.style.opacity = '0';
+    yesPanel.style.transform = 'scale(.95)';
+    requestAnimationFrame(() => {
+      yesPanel.style.transition = 'opacity .5s ease, transform .5s ease';
+      yesPanel.style.opacity = '1';
+      yesPanel.style.transform = 'scale(1)';
+    });
+  }, 400);
+});
+</script>
+</body>
+</html>
